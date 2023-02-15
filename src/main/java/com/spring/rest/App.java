@@ -10,6 +10,8 @@ public class App
                 new AnnotationConfigApplicationContext(MyConfig.class);
 
         Communication communication = context.getBean("communication", Communication.class);
+        System.out.println(communication.cancelTransaction());
+
 
     }
 }
