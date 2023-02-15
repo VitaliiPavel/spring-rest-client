@@ -13,11 +13,8 @@ import java.util.List;
 public class Communication {
     @Autowired
     private RestTemplate restTemplate;
-    private final String URL = "";
-
-    public List<Object> getAllObject;
-
-//    ResponseEntity<List<Object>> responseEntity =
-//            restTemplate.exchange(URL, HttpMethod.GET, null
-//                    ,new  ParameterizedTypeReference<List<Object>>(){});
+    private final String MAIB_LIVE_REDIRECT_URL = "https://maib.ecommerce.md:443/ecomm01/ClientHandler";
+    private final String MAIB_LIVE_BASE_URI = "https://maib.ecommerce.md:11440/ecomm01/MerchantHandler";
+    private final String MAIB_TEST_REDIRECT_URL = "https://maib.ecommerce.md:21443/ecomm/ClientHandler";
+    private final String MAIB_TEST_BASE_URI = "https://maib.ecommerce.md:21440/ecomm/MerchantHandler";
 }
