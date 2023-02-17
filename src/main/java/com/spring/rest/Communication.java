@@ -3,12 +3,16 @@ package com.spring.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Component
@@ -20,12 +24,30 @@ public class Communication {
 
     private final String MAIB_TEST_BASE_URI = "https://maib.ecommerce.md:21440/ecomm/MerchantHandler";
 
-    public Object registerTransaction(){
+    public Object smsTransaction(){
 
-        ResponseEntity<Object> responseEntity =
-                restTemplate.exchange(MAIB_TEST_BASE_URI, HttpMethod.GET, null
-                    ,new  ParameterizedTypeReference<Object>(){});
-        return null;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity requestEntity = new HttpEntity<>(headers);
+
+        Map<String, String> uriVariables = new HashMap<>();
+
+        uriVariables.put("command", "v");
+        uriVariables.put("amount", "400");
+        uriVariables.put("currency", "498");
+        uriVariables.put("client_ip_adr", "127.0.0.1");
+        uriVariables.put("language", "en");
+        uriVariables.put("description", "postman");
+        uriVariables.put("msg_type", "SMS");
+
+        ResponseEntity<Map> response = restTemplate.exchange(
+                MAIB_TEST_BASE_URI,
+                HttpMethod.POST,
+                requestEntity,
+                Map.class,
+                uriVariables
+        );
+
+        return response.getBody();
     }
 
     public Object requestTransactionStatus(){
