@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
