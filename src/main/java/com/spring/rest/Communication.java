@@ -1,255 +1,197 @@
 package com.spring.rest;
+
+import com.spring.rest.constants.CommandTypes;
+import com.spring.rest.constants.RequestParameters;
+import com.spring.rest.constants.TransactionTypes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
 
 @Component
 public class Communication {
     @Autowired
     private RestTemplate restTemplate;
 
-    private final String MAIB_TEST_REDIRECT_URL = "https://maib.ecommerce.md:21443/ecomm/ClientHandler";
-    private final String MAIB_TEST_BASE_URI = "https://maib.ecommerce.md:21440/ecomm/MerchantHandler";
+    @Value("${merchant.handler.url}")
+    private String merchantHandlerURL;
 
-    public Map registerSmsTransaction(double amount,int currency, String client_ip_adr,
-                                 String language, String description){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
+    @Value("${client.handler.url}")
+    private String clientHandlerURL;
 
-        Map<String, String> uriVariables = new HashMap<>();
+    public ResponseEntity<String> registerSmsTransaction(double amount, int currency, String clientIpAdr, String language, String description) {
 
-        uriVariables.put("command", "v");
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("currency", String.valueOf(currency));
-        uriVariables.put("client_ip_adr", client_ip_adr);
-        uriVariables.put("language", language);
-        uriVariables.put("description", description);
-        uriVariables.put("msg_type", "SMS");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
+                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_SMS_TRANSACTION)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
+
+        return performRequest(builder.build().encode().toUriString());
     }
 
-    public Map getTransactionResult(String trans_id, String client_ip_adr){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
+    public ResponseEntity<String> getTransactionResult(String transId, String clientIpAdr) {
 
-        Map<String, String> uriVariables = new HashMap<>();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
-        uriVariables.put("command", "c");
-        uriVariables.put("trans_id", trans_id);
-        uriVariables.put("client_ip_adr", client_ip_adr);
+                .queryParam(RequestParameters.COMMAND, CommandTypes.GET_TRANSACTION_RESULT)
+                .queryParam(RequestParameters.TRANS_ID, transId)
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr);
 
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
+        return performRequest(builder.build().encode().toUriString());
     }
 
-    public Map  registerDmsTransaction(String client_ip_adr, double amount, int currency,
-                                         String description, String language){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
+    public ResponseEntity<String> registerDmsTransaction(String clientIpAdr, double amount, int currency, String description, String language) {
 
-        Map<String, String> uriVariables = new HashMap<>();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
-        uriVariables.put("command", "a");
-        uriVariables.put("client_ip_adr", client_ip_adr);
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("currency", String.valueOf(currency));
-        uriVariables.put("description", description);
-        uriVariables.put("language", language);
-        uriVariables.put("msg_type", "DMS");
+                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_DMS_TRANSACTION)
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
 
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
-    }
-    public Map makeDmsTransaction(String client_ip_adr,String trans_id, double amount, int currency,
-                                         String description, String language){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
-
-        Map<String, String> uriVariables = new HashMap<>();
-
-        uriVariables.put("command", "t");
-        uriVariables.put("trans_id", trans_id);
-        uriVariables.put("client_ip_adr", client_ip_adr);
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("currency", String.valueOf(currency));
-        uriVariables.put("description", description);
-        uriVariables.put("language", language);
-        uriVariables.put("msg_type", "DMS");
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
-    }
-    public Map revertTransaction(String trans_id, double amount, String suspected_fraud){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
-
-        Map<String, String> uriVariables = new HashMap<>();
-
-        uriVariables.put("command", "r");
-        uriVariables.put("trans_id", trans_id);
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("suspected_fraud", suspected_fraud);
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
-    }
-    public Map closeDay(){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
-
-        Map<String, String> uriVariables = new HashMap<>();
-
-        uriVariables.put("command", "b");
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
-    }
-    public Map registerRegularTransaction(double amount,int currency, String client_ip_adr,
-                                      String language, String description, String biller_client_id,
-                                          String perspayee_expiry, String perspayee_gen,
-                                          String msg_type, String command, String perspayee_overwrite){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
-
-        Map<String, String> uriVariables = new HashMap<>();
-
-        uriVariables.put("command", command);
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("currency", String.valueOf(currency));
-        uriVariables.put("client_ip_adr", client_ip_adr);
-        uriVariables.put("language", language);
-        uriVariables.put("description", description);
-        uriVariables.put("biller_client_id", biller_client_id);
-        uriVariables.put("perspayee_expiry",perspayee_expiry);
-        uriVariables.put("perspayee_gen",perspayee_gen);
-        uriVariables.put("msg_type", msg_type);
-        uriVariables.put("perspayee_overwrite", perspayee_overwrite);
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
+        return performRequest(builder.build().encode().toUriString());
     }
 
-    public Map registerRegularTransaction(double amount,int currency, String client_ip_adr,
-                                          String language, String description, String biller_client_id,
-                                          String perspayee_expiry, String perspayee_gen){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
+    public ResponseEntity<String> makeDmsTransaction(String clientIpAdr, String transId, double amount, int currency, String description, String language) {
 
-        Map<String, String> uriVariables = new HashMap<>();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
-        uriVariables.put("command", "p");
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("currency", String.valueOf(currency));
-        uriVariables.put("client_ip_adr", client_ip_adr);
-        uriVariables.put("language", language);
-        uriVariables.put("description", description);
-        uriVariables.put("biller_client_id", biller_client_id);
-        uriVariables.put("perspayee_expiry",perspayee_expiry);
-        uriVariables.put("perspayee_gen",perspayee_gen);
-        uriVariables.put("msg_type", "AUTH");
+                .queryParam(RequestParameters.COMMAND, CommandTypes.MAKE_DMS_TRANSACTION)
+                .queryParam(RequestParameters.TRANS_ID, transId)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
 
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
+        return performRequest(builder.build().encode().toUriString());
     }
 
-    public Map makeTransaction(double amount,int currency, String client_ip_adr,
-                                          String language, String description, String biller_client_id){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
+    public ResponseEntity<String> revertTransaction(String transId, double amount, String suspectedFraud) {
 
-        Map<String, String> uriVariables = new HashMap<>();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
-        uriVariables.put("command", "e");
-        uriVariables.put("amount", String.valueOf(amount));
-        uriVariables.put("currency", String.valueOf(currency));
-        uriVariables.put("client_ip_adr", client_ip_adr);
-        uriVariables.put("language", language);
-        uriVariables.put("description", description);
-        uriVariables.put("biller_client_id", biller_client_id);
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
-    }
-    public Map deleteTransaction( String biller_client_id){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity requestEntity = new HttpEntity<>(headers);
-
-        Map<String, String> uriVariables = new HashMap<>();
-
-        uriVariables.put("command", "x");
-        uriVariables.put("biller_client_id", biller_client_id);
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                MAIB_TEST_BASE_URI,
-                HttpMethod.POST,
-                requestEntity,
-                Map.class,
-                uriVariables
-        );
-        return response.getBody();
+                .queryParam(RequestParameters.COMMAND, CommandTypes.REVERT_TRANSACTION)
+                .queryParam(RequestParameters.TRANS_ID, transId)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.SUSPECTED_FRAUD, suspectedFraud);
+        return performRequest(builder.build().encode().toUriString());
     }
 
+    public ResponseEntity<String> closeDay() {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+                .queryParam(RequestParameters.COMMAND, CommandTypes.CLOSE_DAY);
+
+        return performRequest(builder.build().encode().toUriString());
+
+    }
+
+    public ResponseEntity<String> registerRegularSmsTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+
+                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_SMS_TRANSACTION)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
+                .queryParam(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry)
+                .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
+                .queryParam(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite)
+                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
+        return performRequest(builder.build().encode().toUriString());
+    }
+
+    public ResponseEntity<String> registerRegularDmsTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+
+                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_DMS_TRANSACTION)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
+                .queryParam(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry)
+                .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
+                .queryParam(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite)
+                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
+
+        return performRequest(builder.build().encode().toUriString());
+    }
+
+    public ResponseEntity<String> registerRegularTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+
+                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
+                .queryParam(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry)
+                .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
+                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.AUTH);
+
+        return performRequest(builder.build().encode().toUriString());
+    }
+
+    public ResponseEntity<String> makeTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+
+                .queryParam(RequestParameters.COMMAND, CommandTypes.MAKE_TRANSACTION)
+                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
+                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
+                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.LANGUAGE, language)
+                .queryParam(RequestParameters.DESCRIPTION, description)
+                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+
+        return performRequest(builder.build().encode().toUriString());
+    }
+
+    public ResponseEntity<String > deleteTransaction(String billerClientId) {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+
+                .queryParam(RequestParameters.COMMAND, CommandTypes.DELETE_TRANSACTION)
+                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+
+        return performRequest(builder.build().encode().toUriString());
+    }
+
+    public ResponseEntity<String> performRequest(String url) {
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        return restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestEntity,
+                String.class,
+                Map.class
+        );
+    }
 }
