@@ -26,14 +26,14 @@ public class Communication {
     @Value("${client.handler.url}")
     private String clientHandlerURL;
 
-    public ResponseEntity<String> registerSmsTransaction(double amount, int currency, String clientIpAdr, String language, String description) {
+    public ResponseEntity<String> registerSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
                 .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_SMS_TRANSACTION)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
@@ -47,7 +47,7 @@ public class Communication {
 
                 .queryParam(RequestParameters.COMMAND, CommandTypes.GET_TRANSACTION_RESULT)
                 .queryParam(RequestParameters.TRANS_ID, transId)
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr);
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
 
         return performRequest(builder.build().encode().toUriString());
     }
@@ -57,7 +57,7 @@ public class Communication {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
                 .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_DMS_TRANSACTION)
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
                 .queryParam(RequestParameters.DESCRIPTION, description)
@@ -75,7 +75,7 @@ public class Communication {
                 .queryParam(RequestParameters.TRANS_ID, transId)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
@@ -110,7 +110,7 @@ public class Communication {
                 .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_SMS_TRANSACTION)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
@@ -128,7 +128,7 @@ public class Communication {
                 .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_DMS_TRANSACTION)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
@@ -147,7 +147,7 @@ public class Communication {
                 .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
@@ -165,7 +165,7 @@ public class Communication {
                 .queryParam(RequestParameters.COMMAND, CommandTypes.MAKE_TRANSACTION)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADR, clientIpAdr)
+                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
