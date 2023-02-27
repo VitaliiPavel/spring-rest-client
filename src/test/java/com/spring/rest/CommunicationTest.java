@@ -1,6 +1,7 @@
 package com.spring.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.spring.rest.utils.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,11 +31,22 @@ public class CommunicationTest {
     private Communication communication;
 
     @Test
-    public void registerSmsTransactionTest() throws JsonProcessingException {
+    public void registerSmsTransactionTest() {
         ResponseEntity<String> response = communication.registerSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void registerSmsTransactionGetTransId() {
+        ResponseEntity<String> response = communication.registerSmsTransaction(
+                AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
+
+        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
+        String trans_id = responseMap.get("TRANSACTION_ID");
+
+        assertTrue(trans_id != null && trans_id.length() > 0);
     }
 
     @Test
