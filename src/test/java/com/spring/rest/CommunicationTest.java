@@ -1,6 +1,6 @@
 package com.spring.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.spring.rest.utils.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.StringUtils;
+
 
 import java.util.Map;
 
@@ -60,6 +60,16 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test
+    public void registerDmsTransactionGetTransId() {
+        ResponseEntity<String> response = communication.registerDmsTransaction(
+                CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
+
+        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
+        String trans_id = responseMap.get("TRANSACTION_ID");
+
+        assertTrue(trans_id != null && trans_id.length() > 0);
     }
 
     @Test
