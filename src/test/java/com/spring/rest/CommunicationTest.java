@@ -40,6 +40,13 @@ public class CommunicationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
+
+        response = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
+        responseMap = StringUtil.convertStringToMap(response.getBody());
+        String transactionStatus = responseMap.get(Response.RESULT);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(transactionStatus != null && transactionStatus.length() > 0);
     }
 
     @Test
@@ -68,6 +75,13 @@ public class CommunicationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
+
+        response = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
+        responseMap = StringUtil.convertStringToMap(response.getBody());
+        String transactionStatus = responseMap.get(Response.RESULT);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(transactionStatus != null && transactionStatus.length() > 0);
     }
 
     @Test

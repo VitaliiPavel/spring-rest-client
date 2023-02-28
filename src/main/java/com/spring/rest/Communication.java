@@ -67,7 +67,7 @@ public class Communication {
         return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String> makeDmsTransaction(String clientIpAdr, String transId, double amount, int currency, String description, String language) {
+    public ResponseEntity<String> makeDmsTransaction(String clientIpAdr, String transId, int amount, int currency, String description, String language) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
@@ -83,7 +83,7 @@ public class Communication {
         return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String> revertTransaction(String transId, double amount, String suspectedFraud) {
+    public ResponseEntity<String> revertTransaction(String transId, int amount, String suspectedFraud) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
