@@ -38,7 +38,7 @@ public class Communication {
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> getTransactionResult(String transId, String clientIpAdr) {
@@ -49,10 +49,10 @@ public class Communication {
                 .queryParam(RequestParameters.TRANS_ID, transId)
                 .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String> registerDmsTransaction(String clientIpAdr, double amount, int currency, String description, String language) {
+    public ResponseEntity<String> registerDmsTransaction(String clientIpAdr, int amount, int currency, String description, String language) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
@@ -64,7 +64,7 @@ public class Communication {
                 .queryParam(RequestParameters.LANGUAGE, language)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> makeDmsTransaction(String clientIpAdr, String transId, double amount, int currency, String description, String language) {
@@ -80,7 +80,7 @@ public class Communication {
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> revertTransaction(String transId, double amount, String suspectedFraud) {
@@ -91,7 +91,7 @@ public class Communication {
                 .queryParam(RequestParameters.TRANS_ID, transId)
                 .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
                 .queryParam(RequestParameters.SUSPECTED_FRAUD, suspectedFraud);
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> closeDay() {
@@ -99,7 +99,7 @@ public class Communication {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
                 .queryParam(RequestParameters.COMMAND, CommandTypes.CLOSE_DAY);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
 
     }
 
@@ -118,7 +118,7 @@ public class Communication {
                 .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
                 .queryParam(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> registerRegularDmsTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
@@ -137,7 +137,7 @@ public class Communication {
                 .queryParam(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> registerRegularTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
@@ -155,7 +155,7 @@ public class Communication {
                 .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
                 .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.AUTH);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> makeTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
@@ -170,7 +170,7 @@ public class Communication {
                 .queryParam(RequestParameters.DESCRIPTION, description)
                 .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String > deleteTransaction(String billerClientId) {
@@ -180,7 +180,7 @@ public class Communication {
                 .queryParam(RequestParameters.COMMAND, CommandTypes.DELETE_TRANSACTION)
                 .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
 
-        return performRequest(builder.build().encode().toUriString());
+        return performRequest(builder.build().toUriString());
     }
 
     public ResponseEntity<String> performRequest(String url) {

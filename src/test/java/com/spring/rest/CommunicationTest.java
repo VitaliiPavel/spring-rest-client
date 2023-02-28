@@ -1,6 +1,7 @@
 package com.spring.rest;
 
 
+import com.spring.rest.constants.Response;
 import com.spring.rest.utils.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,44 +32,41 @@ public class CommunicationTest {
     private Communication communication;
 
     @Test
-    public void registerSmsTransactionTest() {
+    public void registerSmsTransactionGetTransIdTest() {
         ResponseEntity<String> response = communication.registerSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
+        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
+        String trans_id = responseMap.get(Response.TRANSACTION_ID);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    public void registerSmsTransactionGetTransId() {
-        ResponseEntity<String> response = communication.registerSmsTransaction(
-                AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
-
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get("TRANSACTION_ID");
-
         assertTrue(trans_id != null && trans_id.length() > 0);
     }
 
     @Test
     public void getTransactionResultTest() {
-        ResponseEntity<String> response = communication.getTransactionResult(TRANS_ID, CLIENT_IP_ADR);
+
+        ResponseEntity<String> response = communication.registerSmsTransaction(
+                AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
+        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
+        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+
+        response = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
+        responseMap = StringUtil.convertStringToMap(response.getBody());
+        String transactionStatus = responseMap.get(Response.RESULT);
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(transactionStatus != null && transactionStatus.length() > 0);
     }
 
-    @Test
-    public void registerDmsTransactionTest() {
-        ResponseEntity<String> response = communication.registerDmsTransaction(
-                CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
     @Test
     public void registerDmsTransactionGetTransId() {
         ResponseEntity<String> response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
 
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get("TRANSACTION_ID");
+        String trans_id = responseMap.get(Response.TRANSACTION_ID);
 
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
     }
 
