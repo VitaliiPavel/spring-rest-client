@@ -103,7 +103,7 @@ public class Communication {
 
     }
 
-    public ResponseEntity<String> registerRegularSmsTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+    public ResponseEntity<String> registerRegularSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
@@ -121,7 +121,7 @@ public class Communication {
         return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String> registerRegularDmsTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+    public ResponseEntity<String> registerRegularDmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
@@ -140,7 +140,7 @@ public class Communication {
         return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String> registerRegularTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
+    public ResponseEntity<String> registerRegularAuthTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
@@ -158,7 +158,7 @@ public class Communication {
         return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String> makeTransaction(double amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
+    public ResponseEntity<String> makeTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
@@ -173,7 +173,7 @@ public class Communication {
         return performRequest(builder.build().toUriString());
     }
 
-    public ResponseEntity<String > deleteTransaction(String billerClientId) {
+    public ResponseEntity<String> deleteTransaction(String billerClientId) {
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
 
