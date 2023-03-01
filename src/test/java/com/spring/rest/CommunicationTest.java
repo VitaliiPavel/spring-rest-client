@@ -1,7 +1,6 @@
 package com.spring.rest;
 
-
-import com.spring.rest.constants.Response;
+import com.constants.ResponseParameters;
 import com.spring.rest.utils.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class CommunicationTest {
 
-    public final int AMOUNT = 4000;
+    public final int AMOUNT = 400;
     public final int CURRENCY = 498;
     public final String CLIENT_IP_ADR = "127.0.0.1";
     public final String LANGUAGE = "en";
@@ -39,11 +38,11 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.registerSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
-        response = communication.getTransactionResult(TRANS_ID, CLIENT_IP_ADR);
+        response = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
         responseMap = StringUtil.convertStringToMap(response.getBody());
-        String transactionStatus = responseMap.get(Response.RESULT);
+        String transactionStatus = responseMap.get(ResponseParameters.RESULT);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
@@ -55,7 +54,7 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
@@ -67,11 +66,11 @@ public class CommunicationTest {
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
 
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
         response = communication.makeDmsTransaction(CLIENT_IP_ADR, trans_id, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
         responseMap = StringUtil.convertStringToMap(response.getBody());
-        String transactionResult = responseMap.get(Response.ERROR);
+        String transactionResult = responseMap.get(ResponseParameters.ERROR);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(transactionResult != null && transactionResult.length() > 0);
@@ -83,8 +82,8 @@ public class CommunicationTest {
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(responseMap.containsKey(Response.RESULT));
-        assertTrue(responseMap.containsKey(Response.RESULT_CODE));
+        assertTrue(responseMap.containsKey(ResponseParameters.RESULT));
+        assertTrue(responseMap.containsKey(ResponseParameters.RESULT_CODE));
     }
 
     @Test
@@ -92,8 +91,8 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.closeDay();
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
 
-        assertTrue(responseMap.containsKey(Response.RESULT_CODE));
-        assertTrue(responseMap.containsKey(Response.RESULT));
+        assertTrue(responseMap.containsKey(ResponseParameters.RESULT_CODE));
+        assertTrue(responseMap.containsKey(ResponseParameters.RESULT));
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -103,7 +102,7 @@ public class CommunicationTest {
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN, PERSPAYEE_OVERWRITE);
 
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
@@ -115,7 +114,7 @@ public class CommunicationTest {
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN, PERSPAYEE_OVERWRITE);
 
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);
@@ -127,7 +126,7 @@ public class CommunicationTest {
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN);
 
         Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(Response.TRANSACTION_ID);
+        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(trans_id != null && trans_id.length() > 0);

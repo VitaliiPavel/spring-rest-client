@@ -1,6 +1,6 @@
-package com.spring.rest.constants;
+package com.constants;
 
-public class Response {
+public class ResponseParameters {
     public static final String TRANSACTION_ID = "TRANSACTION_ID";
     public static final String RESULT = "RESULT";
     public static final String RESULT_CODE = "RESULT_CODE";
