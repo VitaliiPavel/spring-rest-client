@@ -14,5 +14,4 @@ public class RequestParameters {
     public static final String PERSPAYEE_GEN = "perspayee_gen";
     public static final String PERSPAYEE_OVERWRITE = "perspayee_overwrite";
     public static final String MSG_TYPE = "msg_type";
-
 }

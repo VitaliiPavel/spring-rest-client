@@ -29,137 +29,141 @@ public class Communication {
 
     public ResponseEntity<String> registerSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_SMS_TRANSACTION)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
+                params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_SMS_TRANSACTION);
+                params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+                params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+                params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+                params.put(RequestParameters.LANGUAGE, language);
+                params.put(RequestParameters.DESCRIPTION, description);
+                params.put(RequestParameters.MSG_TYPE, TransactionTypes.SMS.toString());
 
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> getTransactionResult(String transId, String clientIpAdr) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.GET_TRANSACTION_RESULT)
-                .queryParam(RequestParameters.TRANS_ID, transId)
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.COMMAND, CommandTypes.GET_TRANSACTION_RESULT);
+        params.put(RequestParameters.TRANS_ID, transId);
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
 
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> registerDmsTransaction(String clientIpAdr, int amount, int currency, String description, String language) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_DMS_TRANSACTION)
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
+        params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_DMS_TRANSACTION);
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.MSG_TYPE, TransactionTypes.DMS.toString());
 
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> makeDmsTransaction(String clientIpAdr, String transId, int amount, int currency, String description, String language) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.MAKE_DMS_TRANSACTION)
-                .queryParam(RequestParameters.TRANS_ID, transId)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
+        params.put(RequestParameters.COMMAND, CommandTypes.MAKE_DMS_TRANSACTION);
+        params.put(RequestParameters.TRANS_ID, transId);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.MSG_TYPE, TransactionTypes.DMS.toString());
 
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> revertTransaction(String transId, int amount, String suspectedFraud) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.REVERT_TRANSACTION)
-                .queryParam(RequestParameters.TRANS_ID, transId)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.SUSPECTED_FRAUD, suspectedFraud);
-        return performRequest(builder.build().toUriString());
+        params.put(RequestParameters.COMMAND, CommandTypes.REVERT_TRANSACTION);
+        params.put(RequestParameters.TRANS_ID, transId);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.SUSPECTED_FRAUD, suspectedFraud);
+
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> closeDay() {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
-                .queryParam(RequestParameters.COMMAND, CommandTypes.CLOSE_DAY);
+        Map<String, String> params = new HashMap<>();
 
-        return performRequest(builder.build().toUriString());
+        params.put(RequestParameters.COMMAND, CommandTypes.CLOSE_DAY);
+
+        return performRequest(merchantHandlerURL, params);
 
     }
 
     public ResponseEntity<String> registerRegularSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_SMS_TRANSACTION)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
-                .queryParam(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry)
-                .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
-                .queryParam(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite)
-                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.SMS);
-        return performRequest(builder.build().toUriString());
+        params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_SMS_TRANSACTION);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+        params.put(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry);
+        params.put(RequestParameters.PERSPAYEE_GEN, perspayeeGen);
+        params.put(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite);
+        params.put(RequestParameters.MSG_TYPE, TransactionTypes.SMS.toString());
+
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> registerRegularDmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_DMS_TRANSACTION)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
-                .queryParam(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry)
-                .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
-                .queryParam(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite)
-                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.DMS);
+        params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_DMS_TRANSACTION);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+        params.put(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry);
+        params.put(RequestParameters.PERSPAYEE_GEN, perspayeeGen);
+        params.put(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite);
+        params.put(RequestParameters.MSG_TYPE, TransactionTypes.DMS.toString());
 
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> registerRegularAuthTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
 
         Map<String, String> params = new HashMap<>();
 
-                params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION);
-                params.put(RequestParameters.AMOUNT, String.valueOf(amount));
-                params.put(RequestParameters.CURRENCY, String.valueOf(currency));
-                params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
-                params.put(RequestParameters.LANGUAGE, language);
-                params.put(RequestParameters.DESCRIPTION, description);
-                params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
-                params.put(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry);
-                params.put(RequestParameters.PERSPAYEE_GEN, perspayeeGen);
-                params.put(RequestParameters.MSG_TYPE, TransactionTypes.AUTH);
+        params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+        params.put(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry);
+        params.put(RequestParameters.PERSPAYEE_GEN, perspayeeGen);
+        params.put(RequestParameters.MSG_TYPE, TransactionTypes.AUTH.toString());
 
         return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> makeTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
+
         Map<String, String> params = new HashMap<>();
 
         params.put(RequestParameters.COMMAND, CommandTypes.MAKE_TRANSACTION);
