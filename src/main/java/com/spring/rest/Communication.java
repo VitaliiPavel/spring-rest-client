@@ -143,45 +143,44 @@ public class Communication {
 
     public ResponseEntity<String> registerRegularAuthTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        Map<String, String> params = new HashMap<>();
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId)
-                .queryParam(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry)
-                .queryParam(RequestParameters.PERSPAYEE_GEN, perspayeeGen)
-                .queryParam(RequestParameters.MSG_TYPE, TransactionTypes.AUTH);
+                params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION);
+                params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+                params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+                params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+                params.put(RequestParameters.LANGUAGE, language);
+                params.put(RequestParameters.DESCRIPTION, description);
+                params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+                params.put(RequestParameters.PERSPAYEE_EXPIRY, perspayeeExpiry);
+                params.put(RequestParameters.PERSPAYEE_GEN, perspayeeGen);
+                params.put(RequestParameters.MSG_TYPE, TransactionTypes.AUTH);
 
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> makeTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
+        Map<String, String> params = new HashMap<>();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
+        params.put(RequestParameters.COMMAND, CommandTypes.MAKE_TRANSACTION);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
 
-                .queryParam(RequestParameters.COMMAND, CommandTypes.MAKE_TRANSACTION)
-                .queryParam(RequestParameters.AMOUNT, String.valueOf(amount))
-                .queryParam(RequestParameters.CURRENCY, String.valueOf(currency))
-                .queryParam(RequestParameters.CLIENT_IP_ADDR, clientIpAdr)
-                .queryParam(RequestParameters.LANGUAGE, language)
-                .queryParam(RequestParameters.DESCRIPTION, description)
-                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
-
-        return performRequest(builder.build().toUriString());
+        return performRequest(merchantHandlerURL, params);
     }
 
     public ResponseEntity<String> deleteTransaction(String billerClientId) {
-        Map<String,String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put(RequestParameters.COMMAND, CommandTypes.DELETE_TRANSACTION);
         params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
         return performRequest(merchantHandlerURL, params);
     }
 
-    public ResponseEntity<String> performRequest(String url, Map<String,String> params) {
+    public ResponseEntity<String> performRequest(String url, Map<String, String> params) {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
