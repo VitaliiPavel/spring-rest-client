@@ -24,7 +24,7 @@ import java.security.cert.X509Certificate;
 @Configuration
 @ComponentScan("com.spring.rest")
 @PropertySource("classpath:application.properties")
-public class MyConfig {
+public class AppConfiguration {
 
     @Value("${trust.store}")
     private String trustStore;

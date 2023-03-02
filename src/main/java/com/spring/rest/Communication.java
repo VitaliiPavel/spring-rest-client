@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -174,24 +175,24 @@ public class Communication {
     }
 
     public ResponseEntity<String> deleteTransaction(String billerClientId) {
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(merchantHandlerURL)
-
-                .queryParam(RequestParameters.COMMAND, CommandTypes.DELETE_TRANSACTION)
-                .queryParam(RequestParameters.BILLER_CLIENT_ID, billerClientId);
-
-        return performRequest(builder.build().toUriString());
+        Map<String,String> params = new HashMap<>();
+        params.put(RequestParameters.COMMAND, CommandTypes.DELETE_TRANSACTION);
+        params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
+        return performRequest(merchantHandlerURL, params);
     }
 
-    public ResponseEntity<String> performRequest(String url) {
+    public ResponseEntity<String> performRequest(String url, Map<String,String> params) {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            builder.queryParam(entry.getKey(), entry.getValue());
+        }
         return restTemplate.exchange(
-                url,
+                builder.build().toUriString(),
                 HttpMethod.POST,
                 requestEntity,
-                String.class,
-                Map.class
+                String.class
         );
     }
 }
