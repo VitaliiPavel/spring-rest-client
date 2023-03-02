@@ -106,7 +106,7 @@ public class Communication {
 
     }
 
-    public ResponseEntity<String> registerRegularSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+    public ResponseEntity<Map> registerRegularSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
         Map<String, String> params = new HashMap<>();
 
@@ -122,7 +122,18 @@ public class Communication {
         params.put(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite);
         params.put(RequestParameters.MSG_TYPE, TransactionTypes.SMS.toString());
 
-        return performRequest(merchantHandlerURL, params);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(merchantHandlerURL);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            builder.queryParam(entry.getKey(), entry.getValue());
+        }
+        return restTemplate.exchange(
+                builder.build().toUriString(),
+                HttpMethod.POST,
+                requestEntity,
+                Map.class
+        );
     }
 
     public ResponseEntity<String> registerRegularDmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
