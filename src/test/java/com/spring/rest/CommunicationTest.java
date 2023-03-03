@@ -1,6 +1,8 @@
 package com.spring.rest;
 
 import com.constants.ResponseParameters;
+import com.spring.rest.dto.ResponseDTO;
+import com.spring.rest.mapper.ResponseMapper;
 import com.spring.rest.utils.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,11 +55,10 @@ public class CommunicationTest {
     public void registerDmsTransactionGetTransId() {
         ResponseEntity<String> response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(trans_id != null && trans_id.length() > 0);
+        assertTrue(responseDTO.getTransactionId() != null && responseDTO.getTransactionId().length() > 0);
     }
 
     @Test
