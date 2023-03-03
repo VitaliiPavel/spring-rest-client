@@ -69,7 +69,6 @@ public class CommunicationTest {
         String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
 
         response = communication.makeDmsTransaction(CLIENT_IP_ADR, trans_id, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-        responseMap = StringUtil.convertStringToMap(response.getBody());
         String transactionResult = responseMap.get(ResponseParameters.ERROR);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
