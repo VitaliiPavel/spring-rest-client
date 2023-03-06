@@ -7,8 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DmsTransactionDTO extends ResponseDTO{
-    @JsonProperty("RESULT_CODE")
-    private String resultCode;
     @JsonProperty("RRN")
     private String referenceRetrievalNumber;
     @JsonProperty("APPROVAL_CODE")

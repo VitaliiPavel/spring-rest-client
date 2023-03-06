@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CloseDayDTO extends ResponseDTO{
+public class CloseBusinessDayDTO extends ResponseDTO{
     @JsonProperty("FLD_074")
     private String creditTransactionsNumber;
     @JsonProperty("FLD_075")

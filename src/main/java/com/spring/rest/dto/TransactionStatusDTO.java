@@ -1,13 +1,14 @@
 package com.spring.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.spring.rest.enums.PaymentServerResultStatuses;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
 @Setter
-public class RequestStatusTransactionDTO extends ResponseDTO {
+public class TransactionStatusDTO extends ResponseDTO {
     @JsonProperty("RESULT_PS")
-    private String resultPs;
+    private PaymentServerResultStatuses resultPs;
     @JsonProperty("3DSECURE")
     private String secureStatus;
     @JsonProperty("3DSECURE_REASON")

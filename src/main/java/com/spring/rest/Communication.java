@@ -2,7 +2,7 @@ package com.spring.rest;
 
 import com.spring.rest.constants.CommandTypes;
 import com.spring.rest.constants.RequestParameters;
-import com.spring.rest.constants.TransactionTypes;
+import com.spring.rest.enums.TransactionTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

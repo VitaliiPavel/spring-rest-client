@@ -9,33 +9,24 @@ import java.util.Map;
 public final class ResponseMapper {
     public static ResponseDTO mapResponseToResponseDTO(String response) {
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, ResponseDTO.class);
+        return new ObjectMapper().convertValue(responseMap, ResponseDTO.class);
     }
-    public static RegisterTransactionDTO mapResponseToRegisterTransactionDTO(String response){
+    public static TransactionStatusDTO mapResponseToTransactionStatusDTO(String response){
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, RegisterTransactionDTO.class);
-    }
-    public static RequestStatusTransactionDTO mapResponseToRequestStatusTransactionDTO(String response){
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, RequestStatusTransactionDTO.class);
+        return new ObjectMapper().convertValue(responseMap, TransactionStatusDTO.class);
     }
     public static DmsTransactionDTO mapResponseToDmsTransactionDTO(String response){
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, DmsTransactionDTO.class);
+        return new ObjectMapper().convertValue(responseMap, DmsTransactionDTO.class);
     }
-    public static ReversalTransactionDTO mapResponseToReversalTransactionDTO(String response){
+    public static CloseBusinessDayDTO mapResponseToCloseDayDTO(String response){
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, ReversalTransactionDTO.class);
+        return new ObjectMapper().convertValue(responseMap, CloseBusinessDayDTO.class);
     }
-    public static CloseDayDTO mapResponseToCloseDayDTO(String response){
+    public static TemplateTransactionDTO mapResponseToTemplateTransactionDTO(String response){
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, CloseDayDTO.class);
+        return new ObjectMapper().convertValue(responseMap, TemplateTransactionDTO.class);
     }
+
 
 }
