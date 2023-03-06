@@ -1,6 +1,8 @@
 package com.spring.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.spring.rest.constants.PaymentServerResultStatuses;
+import com.spring.rest.constants.ResultStatuses;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +12,11 @@ public class ResponseDTO {
     @JsonProperty("TRANSACTION_ID")
     private String transactionId;
     @JsonProperty("RESULT")
-    private String result;
+    private ResultStatuses resultStatus;
     @JsonProperty("RESULT_CODE")
     private String resultCode;
     @JsonProperty("RESULT_PS")
-    private String resultPs;
+    private PaymentServerResultStatuses resultPs;
     @JsonProperty("3DSECURE")
     private String secureStatus;
     @JsonProperty("3DSECURE_REASON")
