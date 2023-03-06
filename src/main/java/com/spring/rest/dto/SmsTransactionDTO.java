@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SmsTransactionDTO extends RegisterTransactionDTO{
-    @JsonProperty("RESULT")
-    private String result;
-    @JsonProperty("RESULT_CODE")
-    private String resultCode;
+public class SmsTransactionDTO extends ResponseDTO{
+//    @JsonProperty("RESULT")
+//    private String result;
+//    @JsonProperty("RESULT_CODE")
+//    private String resultCode;
     @JsonProperty("RESULT_PS")
     private String resultPs;
     @JsonProperty("3DSECURE")

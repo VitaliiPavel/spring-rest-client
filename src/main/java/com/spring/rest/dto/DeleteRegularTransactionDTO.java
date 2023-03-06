@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DeleteRegularTransactionDTO extends  RegisterTransactionDTO{
-    @JsonProperty("RESULT")
-    private String result;
+public class DeleteRegularTransactionDTO extends  ResponseDTO{
+//    @JsonProperty("RESULT")
+//    private String result;
 }

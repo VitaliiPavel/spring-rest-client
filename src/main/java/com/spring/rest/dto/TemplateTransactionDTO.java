@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TemplateTransactionDTO extends RegisterTransactionDTO{
-    @JsonProperty("TRANSACTION_ID")
-    private String transactionId;
-    @JsonProperty("RESULT")
-    private String result;
-    @JsonProperty("RESULT_CODE")
-    private String resultCode;
+public class TemplateTransactionDTO extends ResponseDTO{
+//    @JsonProperty("TRANSACTION_ID")
+//    private String transactionId;
+//    @JsonProperty("RESULT")
+//    private String result;
+//    @JsonProperty("RESULT_CODE")
+//    private String resultCode;
     @JsonProperty("RRN")
     private String referenceRetrievalNumber;
     @JsonProperty("APPROVAL_CODE")
