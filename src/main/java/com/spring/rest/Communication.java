@@ -162,7 +162,7 @@ public class Communication {
         return performRequest(merchantHandlerURL, params);
     }
 
-    public ResponseEntity<String> makeTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
+    public ResponseEntity<String> makeTemplateTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
 
         Map<String, String> params = new HashMap<>();
 
