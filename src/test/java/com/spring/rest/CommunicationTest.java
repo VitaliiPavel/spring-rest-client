@@ -1,9 +1,7 @@
 package com.spring.rest;
 
-import com.constants.ResponseParameters;
 import com.spring.rest.dto.ResponseDTO;
 import com.spring.rest.mapper.ResponseMapper;
-import com.spring.rest.utils.StringUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,16 +35,16 @@ public class CommunicationTest {
     public void registerSmsTransactionGetTransIdAndStatus() {
         ResponseEntity<String> response = communication.registerSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
+        ResponseDTO registerResponseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
+        String trans_id = registerResponseDTO.getTransactionId();
 
-        response = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
-        responseMap = StringUtil.convertStringToMap(response.getBody());
-        String transactionStatus = responseMap.get(ResponseParameters.RESULT);
+        ResponseEntity<String> transactionResponse = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(transactionResponse.getBody());
+        String transactionStatus = responseDTO.getResult();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(trans_id != null && trans_id.length() > 0);
-        assertTrue(transactionStatus != null && transactionStatus.length() > 0);
+        assertNotNull(trans_id);
+        assertNotNull(transactionStatus);
     }
 
     @Test
@@ -58,43 +54,44 @@ public class CommunicationTest {
         ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(responseDTO.getTransactionId() != null && responseDTO.getTransactionId().length() > 0);
+        assertNotNull(responseDTO.getTransactionId());
     }
 
     @Test
     public void makeDmsTransactionTest() {
-        ResponseEntity<String> response = communication.registerDmsTransaction(
+        ResponseEntity<String> registerTransResponse = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
+        ResponseDTO registerTransResponseDTO = ResponseMapper.mapResponseToResponseDTO(registerTransResponse.getBody());
+        String trans_id = registerTransResponseDTO.getTransactionId();
 
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
+        ResponseEntity<String> makeTransResponse = communication.makeDmsTransaction(CLIENT_IP_ADR, trans_id, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
+        ResponseDTO makeTransResponseDTO = ResponseMapper.mapResponseToResponseDTO(makeTransResponse.getBody());
+        String transactionResult = makeTransResponseDTO.getError();
 
-        response = communication.makeDmsTransaction(CLIENT_IP_ADR, trans_id, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-        responseMap = StringUtil.convertStringToMap(response.getBody());
-        String transactionResult = responseMap.get(ResponseParameters.ERROR);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(transactionResult != null && transactionResult.length() > 0);
+        assertEquals(HttpStatus.OK, registerTransResponse.getStatusCode());
+        assertEquals(HttpStatus.OK, makeTransResponse.getStatusCode());
+        assertNotNull(trans_id);
+        assertNotNull(transactionResult);
     }
 
     @Test
     public void revertTransactionTest() {
         ResponseEntity<String> response = communication.revertTransaction(TRANS_ID, AMOUNT, "");
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(responseMap.containsKey(ResponseParameters.RESULT));
-        assertTrue(responseMap.containsKey(ResponseParameters.RESULT_CODE));
+        assertNotNull(responseDTO.getResult());
+        assertNotNull(responseDTO.getResultCode());
     }
 
     @Test
     public void closeDayTest() {
         ResponseEntity<String> response = communication.closeDay();
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
-        assertTrue(responseMap.containsKey(ResponseParameters.RESULT_CODE));
-        assertTrue(responseMap.containsKey(ResponseParameters.RESULT));
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(responseDTO.getResult());
+        assertNotNull(responseDTO.getResultCode());
     }
 
     @Test
@@ -102,11 +99,10 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.registerRegularSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN, PERSPAYEE_OVERWRITE);
 
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(trans_id != null && trans_id.length() > 0);
+        assertNotNull(responseDTO.getTransactionId());
     }
 
     @Test
@@ -114,11 +110,10 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.registerRegularDmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN, PERSPAYEE_OVERWRITE);
 
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(trans_id != null && trans_id.length() > 0);
+        assertNotNull(responseDTO.getTransactionId());
     }
 
     @Test
@@ -126,11 +121,10 @@ public class CommunicationTest {
         ResponseEntity<String> response = communication.registerRegularAuthTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN);
 
-        Map<String, String> responseMap = StringUtil.convertStringToMap(response.getBody());
-        String trans_id = responseMap.get(ResponseParameters.TRANSACTION_ID);
+        ResponseDTO responseDTO = ResponseMapper.mapResponseToResponseDTO(response.getBody());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(trans_id != null && trans_id.length() > 0);
+        assertNotNull(responseDTO.getTransactionId());
     }
 
 
