@@ -7,6 +7,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RegisterTransactionDTO extends ResponseDTO{
-//    @JsonProperty("TRANSACTION_ID")
-//    private String transactionId;
 }

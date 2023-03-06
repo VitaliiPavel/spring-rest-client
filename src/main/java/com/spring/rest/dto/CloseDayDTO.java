@@ -7,10 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CloseDayDTO extends ResponseDTO{
-//    @JsonProperty("RESULT")
-//    private String result;
-//    @JsonProperty("RESULT_CODE")
-//    private String resultCode;
     @JsonProperty("FLD_074")
     private String creditTransactionsNumber;
     @JsonProperty("FLD_075")

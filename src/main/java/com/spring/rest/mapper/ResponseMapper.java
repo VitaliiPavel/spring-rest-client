@@ -22,10 +22,10 @@ public final class ResponseMapper {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.convertValue(responseMap, RequestStatusTransactionDTO.class);
     }
-    public static SmsTransactionDTO mapResponseToSmsTransactionDTO(String response){
+    public static DmsTransactionDTO mapResponseToDmsTransactionDTO(String response){
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(responseMap, SmsTransactionDTO.class);
+        return mapper.convertValue(responseMap, DmsTransactionDTO.class);
     }
     public static ReversalTransactionDTO mapResponseToReversalTransactionDTO(String response){
         Map<String, String> responseMap = StringUtil.convertStringToMap(response);
