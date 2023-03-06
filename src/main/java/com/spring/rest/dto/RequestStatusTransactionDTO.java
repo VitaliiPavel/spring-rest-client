@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 @Getter
 @Setter
-public class RequestStatusTransactionDTO {
+public class RequestStatusTransactionDTO extends RegisterTransactionDTO {
     @JsonProperty("RESULT")
     private String result;
     @JsonProperty("RESULT_CODE")

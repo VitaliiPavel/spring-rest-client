@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ReversalTransactionDTO {
+public class ReversalTransactionDTO extends  RegisterTransactionDTO{
     @JsonProperty("RESULT")
     private String result;
     @JsonProperty("RESULT_CODE")

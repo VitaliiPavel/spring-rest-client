@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TemplateTransactionDTO {
+public class TemplateTransactionDTO extends RegisterTransactionDTO{
     @JsonProperty("TRANSACTION_ID")
     private String transactionId;
     @JsonProperty("RESULT")

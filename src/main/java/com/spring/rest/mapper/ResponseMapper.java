@@ -2,6 +2,7 @@ package com.spring.rest.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.rest.dto.GeneralResponseDTO;
+import com.spring.rest.dto.RegisterTransactionDTO;
 import com.spring.rest.utils.StringUtil;
 
 import java.util.Map;

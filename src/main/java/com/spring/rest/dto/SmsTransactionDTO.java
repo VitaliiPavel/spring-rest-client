@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SmsTransactionDTO {
+public class SmsTransactionDTO extends RegisterTransactionDTO{
     @JsonProperty("RESULT")
     private String result;
     @JsonProperty("RESULT_CODE")
