@@ -8,13 +8,13 @@ import lombok.Setter;
 @Setter
 public class CloseBusinessDayDTO extends ResponseDTO{
     @JsonProperty("FLD_074")
-    private String creditTransactionsNumber;
+    private String creditTransactionsCount;
     @JsonProperty("FLD_075")
-    private String creditReversalsNumber;
+    private String creditReversalsCount;
     @JsonProperty("FLD_076")
-    private String debitTransactionsNumber;
+    private String debitTransactionsCount;
     @JsonProperty("FLD_077")
-    private String debitReversalsNumber;
+    private String debitReversalsCount;
     @JsonProperty("FLD_086")
     private String creditTransactionsTotalAmount;
     @JsonProperty("FLD_087")

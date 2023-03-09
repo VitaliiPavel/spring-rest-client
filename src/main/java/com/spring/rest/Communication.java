@@ -2,7 +2,12 @@ package com.spring.rest;
 
 import com.spring.rest.constants.CommandTypes;
 import com.spring.rest.constants.RequestParameters;
+import com.spring.rest.dto.CloseBusinessDayDTO;
+import com.spring.rest.dto.DmsTransactionDTO;
+import com.spring.rest.dto.ResponseDTO;
+import com.spring.rest.dto.TransactionStatusDTO;
 import com.spring.rest.enums.TransactionTypes;
+import com.spring.rest.mapper.ResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -27,36 +32,35 @@ public class Communication {
     @Value("${client.handler.url}")
     private String clientHandlerURL;
 
-    public ResponseEntity<String> registerSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description) {
+    public ResponseDTO registerSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description) {
 
         Map<String, String> params = new HashMap<>();
+        params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_SMS_TRANSACTION);
+        params.put(RequestParameters.AMOUNT, String.valueOf(amount));
+        params.put(RequestParameters.CURRENCY, String.valueOf(currency));
+        params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
+        params.put(RequestParameters.LANGUAGE, language);
+        params.put(RequestParameters.DESCRIPTION, description);
+        params.put(RequestParameters.MSG_TYPE, TransactionTypes.SMS.toString());
 
-                params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_SMS_TRANSACTION);
-                params.put(RequestParameters.AMOUNT, String.valueOf(amount));
-                params.put(RequestParameters.CURRENCY, String.valueOf(currency));
-                params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
-                params.put(RequestParameters.LANGUAGE, language);
-                params.put(RequestParameters.DESCRIPTION, description);
-                params.put(RequestParameters.MSG_TYPE, TransactionTypes.SMS.toString());
-
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToResponseDTO(response.getBody());
     }
 
-    public ResponseEntity<String> getTransactionResult(String transId, String clientIpAdr) {
+    public TransactionStatusDTO getTransactionResult(String transId, String clientIpAdr) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.GET_TRANSACTION_RESULT);
         params.put(RequestParameters.TRANS_ID, transId);
         params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
 
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToTransactionStatusDTO(response.getBody());
     }
 
-    public ResponseEntity<String> registerDmsTransaction(String clientIpAdr, int amount, int currency, String description, String language) {
+    public ResponseDTO registerDmsTransaction(String clientIpAdr, int amount, int currency, String description, String language) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_DMS_TRANSACTION);
         params.put(RequestParameters.CLIENT_IP_ADDR, clientIpAdr);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
@@ -65,13 +69,13 @@ public class Communication {
         params.put(RequestParameters.LANGUAGE, language);
         params.put(RequestParameters.MSG_TYPE, TransactionTypes.DMS.toString());
 
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToResponseDTO(response.getBody());
     }
 
-    public ResponseEntity<String> makeDmsTransaction(String clientIpAdr, String transId, int amount, int currency, String description, String language) {
+    public DmsTransactionDTO makeDmsTransaction(String clientIpAdr, String transId, int amount, int currency, String description, String language) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.MAKE_DMS_TRANSACTION);
         params.put(RequestParameters.TRANS_ID, transId);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
@@ -81,35 +85,32 @@ public class Communication {
         params.put(RequestParameters.DESCRIPTION, description);
         params.put(RequestParameters.MSG_TYPE, TransactionTypes.DMS.toString());
 
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToDmsTransactionDTO(response.getBody());
     }
 
-    public ResponseEntity<String> revertTransaction(String transId, int amount, String suspectedFraud) {
+    public ResponseDTO revertTransaction(String transId, int amount, String suspectedFraud) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.REVERT_TRANSACTION);
         params.put(RequestParameters.TRANS_ID, transId);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
         params.put(RequestParameters.SUSPECTED_FRAUD, suspectedFraud);
-
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToResponseDTO(response.getBody());
     }
 
-    public ResponseEntity<String> closeDay() {
+    public CloseBusinessDayDTO closeDay() {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.CLOSE_DAY);
-
-        return performRequest(merchantHandlerURL, params);
-
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToCloseDayDTO(response.getBody());
     }
 
-    public ResponseEntity<String> registerRegularSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+    public ResponseDTO registerRegularSmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_SMS_TRANSACTION);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
         params.put(RequestParameters.CURRENCY, String.valueOf(currency));
@@ -122,13 +123,13 @@ public class Communication {
         params.put(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite);
         params.put(RequestParameters.MSG_TYPE, TransactionTypes.SMS.toString());
 
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToResponseDTO(response.getBody());
     }
 
-    public ResponseEntity<String> registerRegularDmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
+    public ResponseDTO registerRegularDmsTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen, String perspayeeOverwrite) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_DMS_TRANSACTION);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
         params.put(RequestParameters.CURRENCY, String.valueOf(currency));
@@ -141,13 +142,13 @@ public class Communication {
         params.put(RequestParameters.PERSPAYEE_OVERWRITE, perspayeeOverwrite);
         params.put(RequestParameters.MSG_TYPE, TransactionTypes.DMS.toString());
 
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToResponseDTO(response.getBody());
     }
 
-    public ResponseEntity<String> registerRegularAuthTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
+    public ResponseDTO registerRegularAuthTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId, String perspayeeExpiry, String perspayeeGen) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.REGISTER_REGULAR_TRANSACTION);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
         params.put(RequestParameters.CURRENCY, String.valueOf(currency));
@@ -159,13 +160,13 @@ public class Communication {
         params.put(RequestParameters.PERSPAYEE_GEN, perspayeeGen);
         params.put(RequestParameters.MSG_TYPE, TransactionTypes.AUTH.toString());
 
-        return performRequest(merchantHandlerURL, params);
+        ResponseEntity<String> response = performRequest(merchantHandlerURL, params);
+        return ResponseMapper.mapResponseToResponseDTO(response.getBody());
     }
 
     public ResponseEntity<String> makeTemplateTransaction(int amount, int currency, String clientIpAdr, String language, String description, String billerClientId) {
 
         Map<String, String> params = new HashMap<>();
-
         params.put(RequestParameters.COMMAND, CommandTypes.MAKE_TRANSACTION);
         params.put(RequestParameters.AMOUNT, String.valueOf(amount));
         params.put(RequestParameters.CURRENCY, String.valueOf(currency));
@@ -178,6 +179,7 @@ public class Communication {
     }
 
     public ResponseEntity<String> deleteTransaction(String billerClientId) {
+
         Map<String, String> params = new HashMap<>();
         params.put(RequestParameters.COMMAND, CommandTypes.DELETE_TRANSACTION);
         params.put(RequestParameters.BILLER_CLIENT_ID, billerClientId);
@@ -185,6 +187,7 @@ public class Communication {
     }
 
     public ResponseEntity<String> performRequest(String url, Map<String, String> params) {
+
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);

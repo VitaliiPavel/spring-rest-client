@@ -1,5 +1,6 @@
 package com.spring.rest.configuration;
 
+import com.spring.rest.RestTemplateResponseErrorHandler;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClients;
@@ -47,6 +48,8 @@ public class AppConfiguration {
                 .build();
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(client);
-        return new RestTemplate(requestFactory);
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        restTemplate.setErrorHandler(new RestTemplateResponseErrorHandler());
+        return restTemplate;
     }
 }
