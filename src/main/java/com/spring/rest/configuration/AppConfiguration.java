@@ -1,6 +1,6 @@
 package com.spring.rest.configuration;
 
-import com.spring.rest.RestTemplateResponseErrorHandler;
+import com.spring.rest.utils.exceptions.RestTemplateResponseErrorHandler;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClients;

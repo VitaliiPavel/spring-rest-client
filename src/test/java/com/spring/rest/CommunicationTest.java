@@ -1,13 +1,19 @@
 package com.spring.rest;
 
 import com.spring.rest.dto.*;
+import com.spring.rest.utils.exceptions.NotFoundException;
+import com.spring.rest.utils.exceptions.ServiceUnAvailableException;
+import com.spring.rest.utils.exceptions.UnAuthorizedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
+import java.rmi.UnexpectedException;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,6 +49,13 @@ public class CommunicationTest {
         ResponseDTO response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
         assertNotNull(response.getTransactionId());
+    }
+
+    @Test
+    public void performRequestException() {
+        assertThrows(NotFoundException.class, () -> {
+            communication.performRequest("https://maib.ecommerce.md:21440/ecomm/Merchant", new HashMap<>());
+        });
     }
 
     @Test
