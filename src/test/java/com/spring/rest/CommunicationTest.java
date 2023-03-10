@@ -32,11 +32,8 @@ public class CommunicationTest {
     public void registerSmsTransactionGetTransIdAndStatus() {
         ResponseDTO response = communication.registerSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION);
-
         String trans_id = response.getTransactionId();
-
         TransactionStatusDTO transactionResponse = communication.getTransactionResult(trans_id, CLIENT_IP_ADR);
-
         assertNotNull(trans_id);
         assertNotNull(transactionResponse.getResultStatus());
     }
@@ -45,7 +42,6 @@ public class CommunicationTest {
     public void registerDmsTransactionGetTransId() {
         ResponseDTO response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-
         assertNotNull(response.getTransactionId());
     }
 
@@ -53,13 +49,9 @@ public class CommunicationTest {
     public void makeDmsTransactionTest() {
         ResponseDTO response = communication.registerDmsTransaction(
                 CLIENT_IP_ADR, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-
         String trans_id = response.getTransactionId();
-
         DmsTransactionDTO makeTransResponse = communication.makeDmsTransaction(CLIENT_IP_ADR, trans_id, AMOUNT, CURRENCY, DESCRIPTION, LANGUAGE);
-
         String transactionResult = makeTransResponse.getError();
-
         assertNotNull(trans_id);
         assertNotNull(transactionResult);
     }
@@ -67,7 +59,6 @@ public class CommunicationTest {
     @Test
     public void revertTransactionTest() {
         ResponseDTO response = communication.revertTransaction(TRANS_ID, AMOUNT, "");
-
         assertNotNull(response.getResultStatus());
         assertNotNull(response.getResultCode());
     }
@@ -75,7 +66,6 @@ public class CommunicationTest {
     @Test
     public void closeDayTest() {
         CloseBusinessDayDTO response = communication.closeDay();
-
         assertNotNull(response.getResultStatus());
         assertNotNull(response.getResultCode());
     }
@@ -84,7 +74,6 @@ public class CommunicationTest {
     public void registerRegularSmsTransactionTest() {
         ResponseDTO response = communication.registerRegularSmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN, PERSPAYEE_OVERWRITE);
-
         assertNotNull(response.getTransactionId());
     }
 
@@ -92,7 +81,6 @@ public class CommunicationTest {
     public void registerRegularDmsTransactionTest() {
         ResponseDTO response = communication.registerRegularDmsTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN, PERSPAYEE_OVERWRITE);
-
         assertNotNull(response.getTransactionId());
     }
 
@@ -100,8 +88,6 @@ public class CommunicationTest {
     public void registerRegularTransactionTest() {
         ResponseDTO response = communication.registerRegularAuthTransaction(
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN);
-
-
         assertNotNull(response.getTransactionId());
     }
 
