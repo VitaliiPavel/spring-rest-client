@@ -1,21 +1,21 @@
 package com.spring.rest;
 
-import com.spring.rest.dto.*;
+import com.spring.rest.dto.CloseBusinessDayDTO;
+import com.spring.rest.dto.DmsTransactionDTO;
+import com.spring.rest.dto.ResponseDTO;
+import com.spring.rest.dto.TransactionStatusDTO;
+
 import com.spring.rest.utils.exceptions.NotFoundException;
-import com.spring.rest.utils.exceptions.ServiceUnAvailableException;
-import com.spring.rest.utils.exceptions.UnAuthorizedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.test.context.junit4.SpringRunner;
 
-
-import java.rmi.UnexpectedException;
 import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -103,6 +103,5 @@ public class CommunicationTest {
                 AMOUNT, CURRENCY, CLIENT_IP_ADR, LANGUAGE, DESCRIPTION, "", PERSPAYEE_EXPIRY, PERSPAYEE_GEN);
         assertNotNull(response.getTransactionId());
     }
-
 
 }

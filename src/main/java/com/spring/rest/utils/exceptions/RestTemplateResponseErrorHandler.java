@@ -1,12 +1,11 @@
 package com.spring.rest.utils.exceptions;
 
-import org.omg.CosNaming.NamingContextPackage.NotFound;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
-import java.rmi.UnexpectedException;
 
 
 public class RestTemplateResponseErrorHandler
